@@ -1,8 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-node-express-nginx
+spec:
+  type: LoadBalancer
+  selector:
+    app: k8s-node-express-nginx
+  ports:
+    - protocol: TCP
+      port: 3333
+      targetPort: 3000
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: k8s-node-express-nginx
+  labels:
+    app: k8s-node-express-nginx
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: k8s-node-express-nginx
@@ -20,35 +36,3 @@ spec:
             cpu: "250m"
         ports:
         - containerPort: 3000
----
-apiVersion: v1
-kind: ReplicationController
-metadata:
-  name: k8s-node-express-nginx
-spec:
-  replicas: 3
-  selector:
-    app: k8s-node-express-nginx
-  template:
-    metadata:
-      name: k8s-node-express-nginx
-      labels:
-        app: k8s-node-express-nginx
-    spec:
-      containers:
-        - name: k8s-node-express-nginx
-          image: devwl/k8s-node-express-nginx
-          ports:
-            - containerPort: 3000
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: k8s-node-express-nginx
-spec:
-  type: LoadBalancer
-  selector:
-    app: k8s-node-express-nginx
-  ports:
-  - port: 3030
-    targetPort: 3000

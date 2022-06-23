@@ -6,14 +6,14 @@ const app = express()
 const PORT = 3000
 
 app.get("/", (req, res) => {
-    const helloMessage = `Hellow from the ${os.hostname()}`
-    console.log(helloMessage)
-    res.send(helloMessage)
+    const helloMessage = `Hellow from the ${os.hostname()}`;
+    console.log(helloMessage);
+    res.send(helloMessage);
 });
 
 app.get('/nginx', async (req, res) => {
-    const url = "http://nginx"
-    const response = await fetcch(url);
+    const url = "http://nginx";
+    const response = await fetch(url);
     const body = await response.text();
     res.send(body);
 });
